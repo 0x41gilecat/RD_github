@@ -1,0 +1,20 @@
+name: vulnerable
+on:
+  workflow_run:
+    workflows: ['trigger']
+    types:
+      - completed
+      
+jobs:
+  vulnerable:
+    name: vulnerable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_branch }}
+      - name: code exec
+        run: |
+          bash code.sh
